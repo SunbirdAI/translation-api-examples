@@ -1,0 +1,16 @@
+{
+  "name": "translation",
+  "version": "0.0.0",
+  "description": "This is a sample NodeJS app that translates from English to 5 Ugandan local languages (Luganda, Acholi, Ateso, Lugbara or Runyankole), and vice versa, based on preferences set by the user of the application.",
+  "main": "translation.js",
+  "scripts": {
+    "start": "node translation.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sunbird AI",
+  "license": "",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "node-fetch": "^2.6.11"
+  }
+}

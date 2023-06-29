@@ -34,14 +34,11 @@ const englishOption = {
 
 const sourceOptions = [
     englishOption,
-    {
-        label: localLangString,
-        value: localLangString
-    }
+    ...localLangOptions
 ];
 
 const getTargetOptions = (sourceLanguage) => {
-    return sourceLanguage === localLangString ? [englishOption] : localLangOptions
+    return sourceLanguage !== 'English' ? [englishOption] : localLangOptions
 }
 
 
@@ -55,7 +52,7 @@ const Translate = () => {
     const isMounted = useRef(false);
 
     useEffect(() => {
-        if (sourceLanguage === localLangString) setTargetLanguage('English');
+        if (sourceLanguage !== localLangString) setTargetLanguage('English');
         else setTargetLanguage(localLangOptions[0].value);
     }, [sourceLanguage])
 
