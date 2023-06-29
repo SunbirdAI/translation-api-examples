@@ -3,9 +3,11 @@ import pRetry from "p-retry";
 const apiUrl = process.env.REACT_APP_SB_API_URL;
 
 // Text translation
-export const getTranslation = async (text) => {
+export const getTranslation = async (sentence, sourceLanguage, targetLanguage) => {
     let modelEndpoint = `${apiUrl}/tasks/translate`;
     let translatedText = "";
+
+    console.log(sourceLanguage, targetLanguage);
 
     console.log(`API URL: ${apiUrl}`);
 
@@ -16,16 +18,17 @@ export const getTranslation = async (text) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            "source_language": "English",
-            "target_language": "Luganda",
-            "text": text
+            "source_language": sourceLanguage,
+            "target_language": targetLanguage,
+            "text": sentence
         })
     };
 
     try {
         let response = await fetch(modelEndpoint, requestOptions);
         if (response.status === 200) {
-            translatedText = await response.json()["text"];
+            let responseJson = await response.json();
+            translatedText = responseJson["text"];
         }
         else {
             let errorMsg = `${response.status} ${response.statusText}`;
@@ -40,8 +43,8 @@ export const getTranslation = async (text) => {
     return translatedText;
 }
 
-export const translateSB = async (sentence, model) => {
-    return await pRetry(() => getTranslation(sentence, model), {
+export const translateSB = async (sentence, sourceLanguage, targetLanguage) => {
+    return await pRetry(() => getTranslation(sentence, sourceLanguage, targetLanguage), {
         onFailedAttempt: error => {
             console.log(`Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`);
         },
